@@ -21,8 +21,8 @@ def click(x, y):
 
 # Simulate a mouse click on a pixel
 def click_pixel(coords, add_x, add_y, num_clicks=3):
-    click_x = round(coords["firstX"] + add_x * (coords["lastX"] - coords["firstX"]) / 31)
-    click_y = round(coords["firstY"] + add_y * (coords["lastY"] - coords["firstY"]) / 31)
+    click_x = round(coords["firstX"] + add_x * (coords["lastX"] - coords["firstX"]) / 49)
+    click_y = round(coords["firstY"] + add_y * (coords["lastY"] - coords["firstY"]) / 49)
     
     for _ in range(num_clicks):
         time.sleep(.001)
@@ -32,6 +32,10 @@ def click_pixel(coords, add_x, add_y, num_clicks=3):
 def select_color(coords, color):
     hexColor = utilities.rgb2hex(color)
     click(coords["openButtonX"], coords["openButtonY"])
+    click(coords["inputX"], coords["inputY"])
+    time.sleep(0.1)
+    click(coords["inputX"], coords["inputY"])
+    time.sleep(0.1)
     click(coords["inputX"], coords["inputY"])
     vkey.typer(string=hexColor)
     for _ in range(2):
@@ -54,8 +58,8 @@ def start_painting(image_pixels, image_name):
        output.printError("Something went wrong. Try again.")
     
     pixels = {}
-    for x in range(32):
-        for y in range(32):
+    for x in range(50):
+        for y in range(50):
             color = image_pixels[x, y]
             if color != (255, 255, 255):
                 pixels.setdefault(color, []).append((x, y))
@@ -73,8 +77,8 @@ def start_painting(image_pixels, image_name):
         select_color(coords, color)
         for pixel in pixels[color]:
             click_pixel(coords, *pixel)
-            click_x = round(coords["firstX"] + pixel[0] * (coords["lastX"] - coords["firstX"]) / 31)
-            click_y = round(coords["firstY"] + pixel[1] * (coords["lastY"] - coords["firstY"]) / 31)
+            click_x = round(coords["firstX"] + pixel[0] * (coords["lastX"] - coords["firstX"]) / 32)
+            click_y = round(coords["firstY"] + pixel[1] * (coords["lastY"] - coords["firstY"]) / 32)
             if not verify_color(click_x, click_y, color):
                 select_color(coords, color)
                 click_pixel(coords, *pixel)

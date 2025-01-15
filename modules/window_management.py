@@ -50,16 +50,17 @@ def setup_window(window_title="Roblox", exe_name="RobloxPlayerBeta.exe", width=1
 
     coordinates = {
         "hwnd": hwnd,
-        "firstX": roblox_middle_x - 270,
-        "firstY": roblox_middle_y - 310,
-        "lastX": roblox_middle_x + 267,
-        "lastY": roblox_middle_y + 228,
-        "openButtonX": roblox_middle_x + 110,
-        "openButtonY": roblox_middle_y + 285,
-        "inputX": roblox_middle_x + 110,
-        "inputY": roblox_middle_y + 200,
-        "closeButtonX": roblox_middle_x + 310,
-        "closeButtonY": roblox_middle_y - 45
+        "firstX": roblox_middle_x - 315,
+        "firstY": roblox_middle_y - 381,
+        "lastX": roblox_middle_x + 318,
+        "lastY": roblox_middle_y + 252,
+        "openButtonX": roblox_middle_x - 200,
+        "openButtonY": roblox_middle_y + 300,
+        "inputX": roblox_middle_x + 140,
+        "inputY": roblox_middle_y + 172,
+        "closeButtonX": roblox_middle_x - 70,
+        "closeButtonY": roblox_middle_y + 174
     }
 
+    
     return coordinates
