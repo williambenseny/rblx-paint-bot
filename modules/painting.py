@@ -9,6 +9,7 @@ from tqdm import tqdm
 from modules.window_management import setup_window
 from modules.utilities import verify_color
 
+previousHexColor = "000000"
 # Simulate a mouse click at given coordinates
 def click(x, y):
     win32api.SetCursorPos((x, y))
@@ -20,17 +21,24 @@ def click(x, y):
     time.sleep(0.01)
 
 # Simulate a mouse click on a pixel
-def click_pixel(coords, add_x, add_y, num_clicks=3):
-    click_x = round(coords["firstX"] + add_x * (coords["lastX"] - coords["firstX"]) / 49)
-    click_y = round(coords["firstY"] + add_y * (coords["lastY"] - coords["firstY"]) / 49)
+def click_pixel(coords, add_x, add_y, num_clicks=2):
+    # Não arredondar no meio do cálculo
+    click_x = coords["firstX"] + add_x * (coords["lastX"] - coords["firstX"]) / 199.0
+    click_y = coords["firstY"] + add_y * (coords["lastY"] - coords["firstY"]) / 199.0
     
     for _ in range(num_clicks):
         time.sleep(.001)
-        click(click_x, click_y)
+        click(int(click_x), int(click_y))  # Arredondar só no momento do clique
+        print(f"clicked: {int(click_x)},{int(click_y)}")
 
 # Function to select a color in the game
 def select_color(coords, color):
+    global previousHexColor  # Permite acessar e modificar a variável global
     hexColor = utilities.rgb2hex(color)
+    print("Proximo hex " + hexColor)
+    if hexColor == previousHexColor:
+        return
+    previousHexColor = hexColor
     click(coords["openButtonX"], coords["openButtonY"])
     click(coords["inputX"], coords["inputY"])
     time.sleep(0.1)
@@ -58,8 +66,8 @@ def start_painting(image_pixels, image_name):
        output.printError("Something went wrong. Try again.")
     
     pixels = {}
-    for x in range(50):
-        for y in range(50):
+    for x in range(200):
+        for y in range(200):
             color = image_pixels[x, y]
             if color != (255, 255, 255):
                 pixels.setdefault(color, []).append((x, y))
@@ -67,18 +75,18 @@ def start_painting(image_pixels, image_name):
     time.sleep(1)
     for _ in range(2):
         click(coords["closeButtonX"], coords["closeButtonY"])
-    time.sleep(0.5)
+    time.sleep(0.05)
     click(coords["firstX"] + 530, coords["firstY"] + 590)
-    time.sleep(0.5)
+    time.sleep(0.05)
     click(coords["openButtonX"], coords["openButtonY"] - 205)
-    time.sleep(0.5)
+    time.sleep(0.05)
 
     for color in tqdm(pixels):
         select_color(coords, color)
         for pixel in pixels[color]:
             click_pixel(coords, *pixel)
-            click_x = round(coords["firstX"] + pixel[0] * (coords["lastX"] - coords["firstX"]) / 32)
-            click_y = round(coords["firstY"] + pixel[1] * (coords["lastY"] - coords["firstY"]) / 32)
+            click_x = round(coords["firstX"] + pixel[0] * (coords["lastX"] - coords["firstX"]) / 199)
+            click_y = round(coords["firstY"] + pixel[1] * (coords["lastY"] - coords["firstY"]) / 199)
             if not verify_color(click_x, click_y, color):
                 select_color(coords, color)
                 click_pixel(coords, *pixel)

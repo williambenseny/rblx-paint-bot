@@ -12,15 +12,15 @@ def process_image(image):
     aspect_ratio = image.width / image.height
 
     if aspect_ratio > 1:
-        new_width = 50
-        new_height = int(50 / aspect_ratio)
+        new_width = 200
+        new_height = int(200 / aspect_ratio)
     else:
-        new_width = int(50 * aspect_ratio)
-        new_height = 50
+        new_width = int(200 * aspect_ratio)
+        new_height = 200
     
     image = image.resize((new_width, new_height), Image.LANCZOS)
-    final_image = Image.new("RGB", (50, 50), color=(255, 255, 255))
-    paste_position = ((50 - new_width) // 2, (50 - new_height) // 2)
+    final_image = Image.new("RGB", (200, 200), color=(255, 255, 255))
+    paste_position = ((200 - new_width) // 2, (200 - new_height) // 2)
     
     final_image.paste(image, paste_position)
     return final_image

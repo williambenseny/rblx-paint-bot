@@ -50,7 +50,7 @@ def setup_window(window_title="Roblox", exe_name="RobloxPlayerBeta.exe", width=1
 
     coordinates = {
         "hwnd": hwnd,
-        "firstX": roblox_middle_x - 315,
+        "firstX": roblox_middle_x - 318,
         "firstY": roblox_middle_y - 381,
         "lastX": roblox_middle_x + 318,
         "lastY": roblox_middle_y + 252,
