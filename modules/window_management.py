@@ -62,5 +62,18 @@ def setup_window(window_title="Roblox", exe_name="RobloxPlayerBeta.exe", width=1
         "closeButtonY": roblox_middle_y + 174
     }
 
-    
+    # Usando f-strings para imprimir os valores
+    print(f"midX: {roblox_middle_x}")
+    print(f"midY: {roblox_middle_y}")
+    print(f"FX: {coordinates['firstX']}")
+    print(f"FY: {coordinates['firstY']}")
+    print(f"LX: {coordinates['lastX']}")
+    print(f"LY: {coordinates['lastY']}")
+
     return coordinates
+
+#639x638
+#50x50 = 13x13px
+#100x100 = 6x7px
+#200x200 = 3x3px
+#500x500 = 1px

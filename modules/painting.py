@@ -22,14 +22,19 @@ def click(x, y):
 
 # Simulate a mouse click on a pixel
 def click_pixel(coords, add_x, add_y, num_clicks=2):
-    # Não arredondar no meio do cálculo
-    click_x = coords["firstX"] + add_x * (coords["lastX"] - coords["firstX"]) / 199.0
-    click_y = coords["firstY"] + add_y * (coords["lastY"] - coords["firstY"]) / 199.0
-    
+    # Calcula fatores de escala
+    escalaX = (coords["lastX"] - coords["firstX"]) / 199.0
+    escalaY = (coords["lastY"] - coords["firstY"]) / 199.0
+
+    # Calcula posição real com base nos fatores
+    click_x = round(coords["firstX"] + add_x * escalaX)
+    click_y = round(coords["firstY"] + add_y * escalaY)
+
     for _ in range(num_clicks):
-        time.sleep(.001)
-        click(int(click_x), int(click_y))  # Arredondar só no momento do clique
-        print(f"clicked: {int(click_x)},{int(click_y)}")
+        time.sleep(0.001)
+        click(click_x, click_y)
+        print(f"clicked: {click_x},{click_y}")
+
 
 # Function to select a color in the game
 def select_color(coords, color):
@@ -84,11 +89,12 @@ def start_painting(image_pixels, image_name):
     for color in tqdm(pixels):
         select_color(coords, color)
         for pixel in pixels[color]:
-            click_pixel(coords, *pixel)
+            click_pixel(coords, *pixel)  # As posições já são ajustadas no método
             click_x = round(coords["firstX"] + pixel[0] * (coords["lastX"] - coords["firstX"]) / 199)
             click_y = round(coords["firstY"] + pixel[1] * (coords["lastY"] - coords["firstY"]) / 199)
             if not verify_color(click_x, click_y, color):
                 select_color(coords, color)
                 click_pixel(coords, *pixel)
+
     
     print("\nPainting completed, enjoy!")
