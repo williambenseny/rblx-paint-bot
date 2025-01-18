@@ -10,17 +10,17 @@ import uuid
 # Process, resize, and preserve aspect ratio of an image
 def process_image(image):
     aspect_ratio = image.width / image.height
-
+    imgRes= 200
     if aspect_ratio > 1:
-        new_width = 200
-        new_height = int(200 / aspect_ratio)
+        new_width = imgRes
+        new_height = int(imgRes / aspect_ratio)
     else:
-        new_width = int(200 * aspect_ratio)
-        new_height = 200
+        new_width = int(imgRes * aspect_ratio)
+        new_height = imgRes
     
     image = image.resize((new_width, new_height), Image.LANCZOS)
-    final_image = Image.new("RGB", (200, 200), color=(255, 255, 255))
-    paste_position = ((200 - new_width) // 2, (200 - new_height) // 2)
+    final_image = Image.new("RGB", (imgRes, imgRes), color=(255, 255, 255))
+    paste_position = ((imgRes - new_width) // 2, (imgRes - new_height) // 2)
     
     final_image.paste(image, paste_position)
     return final_image
